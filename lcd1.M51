@@ -1,0 +1,202 @@
+BL51 BANKED LINKER/LOCATER V5.02                                                        06/07/2005  15:21:16  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.02, INVOKED BY:
+D:\KEIL C702\C51\BIN\BL51.EXE lcd1.obj TO lcd1 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  lcd1.obj (LCD1)
+  D:\KEIL C702\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  lcd1 (LCD1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?LCD1
+            IDATA   0009H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0041H     UNIT         ?PR?DISPLAY?LCD1
+            CODE    0044H     0022H     UNIT         ?CO?LCD1
+            CODE    0066H     001BH     UNIT         ?PR?_DELAY?LCD1
+            CODE    0081H     0018H     UNIT         ?PR?INIT_LCD?LCD1
+            CODE    0099H     0017H     UNIT         ?PR?MOVE?LCD1
+            CODE    00B0H     000CH     UNIT         ?C_C51STARTUP
+            CODE    00BCH     000BH     UNIT         ?PR?MAIN?LCD1
+            CODE    00C7H     0008H     UNIT         ?PR?_WRITE_COM?LCD1
+            CODE    00CFH     0008H     UNIT         ?PR?_WRITE_DATE?LCD1
+
+
+
+OVERLAY MAP OF MODULE:   lcd1 (LCD1)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?LCD1
+
+?PR?MAIN?LCD1
+  +--> ?PR?INIT_LCD?LCD1
+  +--> ?PR?DISPLAY?LCD1
+  +--> ?PR?MOVE?LCD1
+
+?PR?INIT_LCD?LCD1
+  +--> ?PR?_WRITE_COM?LCD1
+
+?PR?_WRITE_COM?LCD1
+  +--> ?PR?_DELAY?LCD1
+
+?PR?DISPLAY?LCD1
+BL51 BANKED LINKER/LOCATER V5.02                                                      06/07/2005  15:21:16  PAGE 2
+
+
+  +--> ?PR?_WRITE_COM?LCD1
+  +--> ?CO?LCD1
+  +--> ?PR?_WRITE_DATE?LCD1
+  +--> ?PR?_DELAY?LCD1
+
+?PR?_WRITE_DATE?LCD1
+  +--> ?PR?_DELAY?LCD1
+
+?PR?MOVE?LCD1
+  +--> ?PR?_WRITE_COM?LCD1
+  +--> ?PR?_DELAY?LCD1
+
+
+
+SYMBOL TABLE OF MODULE:  lcd1 (LCD1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        LCD1
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:0090H.2       PUBLIC        lcden
+  D:00A8H         PUBLIC        IE
+  C:00CFH         PUBLIC        _write_date
+  D:00B8H         PUBLIC        IP
+  B:0090H.0       PUBLIC        lcdrs
+  B:0090H.1       PUBLIC        lcdrw
+  C:0044H         PUBLIC        t0
+  C:0055H         PUBLIC        t1
+  C:00BCH         PUBLIC        main
+  C:00C7H         PUBLIC        _write_com
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0099H         PUBLIC        move
+  C:0081H         PUBLIC        init_lcd
+  D:00C8H         PUBLIC        T2CON
+  D:0008H         PUBLIC        i
+  C:006FH         PUBLIC        _delay
+  C:0003H         PUBLIC        display
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          L?0025
+  -------         ENDPROC       L?0025
+  -------         PROC          _DELAY
+  D:0007H         SYMBOL        z
+  -------         DO            
+  D:0006H         SYMBOL        x
+  D:0005H         SYMBOL        y
+  -------         ENDDO         
+  C:006FH         LINE#         49
+  C:006FH         LINE#         50
+  C:006FH         LINE#         52
+  C:0071H         LINE#         53
+  C:0080H         LINE#         54
+  -------         ENDPROC       _DELAY
+BL51 BANKED LINKER/LOCATER V5.02                                                      06/07/2005  15:21:16  PAGE 3
+
+
+  -------         PROC          _WRITE_COM
+  D:0007H         SYMBOL        com
+  C:00C7H         LINE#         56
+  C:00C7H         LINE#         57
+  C:00C7H         LINE#         58
+  C:00C9H         LINE#         59
+  C:00C9H         LINE#         60
+  C:00C9H         LINE#         61
+  C:00C9H         LINE#         62
+  C:00CCH         LINE#         63
+  C:00CEH         LINE#         64
+  -------         ENDPROC       _WRITE_COM
+  -------         PROC          _WRITE_DATE
+  D:0007H         SYMBOL        date
+  C:00CFH         LINE#         65
+  C:00CFH         LINE#         66
+  C:00CFH         LINE#         67
+  C:00D1H         LINE#         68
+  C:00D1H         LINE#         69
+  C:00D1H         LINE#         70
+  C:00D1H         LINE#         71
+  C:00D4H         LINE#         72
+  C:00D6H         LINE#         73
+  -------         ENDPROC       _WRITE_DATE
+  -------         PROC          INIT_LCD
+  C:0081H         LINE#         74
+  C:0081H         LINE#         75
+  C:0081H         LINE#         76
+  C:0083H         LINE#         77
+  C:0085H         LINE#         78
+  C:008AH         LINE#         79
+  C:008FH         LINE#         80
+  C:0094H         LINE#         81
+  -------         ENDPROC       INIT_LCD
+  -------         PROC          DISPLAY
+  C:0003H         LINE#         83
+  C:0003H         LINE#         84
+  C:0003H         LINE#         86
+  C:0008H         LINE#         87
+  C:000BH         LINE#         88
+  C:000BH         LINE#         89
+  C:0015H         LINE#         90
+  C:001AH         LINE#         91
+  C:0023H         LINE#         92
+  C:0028H         LINE#         93
+  C:002BH         LINE#         94
+  C:002BH         LINE#         95
+  C:0035H         LINE#         96
+  C:003AH         LINE#         97
+  C:0043H         LINE#         98
+  -------         ENDPROC       DISPLAY
+  -------         PROC          MOVE
+  C:0099H         LINE#         99
+  C:0099H         LINE#         100
+  C:0099H         LINE#         101
+  C:009CH         LINE#         102
+  C:009CH         LINE#         103
+BL51 BANKED LINKER/LOCATER V5.02                                                      06/07/2005  15:21:16  PAGE 4
+
+
+  C:00A1H         LINE#         104
+  C:00A6H         LINE#         105
+  C:00AFH         LINE#         106
+  -------         ENDPROC       MOVE
+  -------         PROC          MAIN
+  C:00BCH         LINE#         108
+  C:00BCH         LINE#         109
+  C:00BCH         LINE#         110
+  C:00BFH         LINE#         111
+  C:00C2H         LINE#         112
+  C:00C2H         LINE#         113
+  C:00C2H         LINE#         114
+  C:00C5H         LINE#         115
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        LCD1
+
+Program Size: data=10.0 xdata=0 code=215
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

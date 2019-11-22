@@ -1,0 +1,143 @@
+C51 COMPILER V7.02a   LCD1                                                                 06/07/2005 15:21:16 PAGE 1   
+
+
+C51 COMPILER V7.02a, COMPILATION OF MODULE LCD1
+OBJECT MODULE PLACED IN lcd1.OBJ
+COMPILER INVOKED BY: D:\keil c702\C51\BIN\C51.EXE lcd1.c BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          /*
+   2          ####################################################
+   3          LCD显示
+   4          1,      初始化设置：
+   5                  lcden=0;
+   6                  lcdrw=0;
+   7                  write_com(0x38);
+   8                  write_com(0x01);
+   9                  write_com(0x0f);
+  10                  write_com(0x06);//设置光标状态默认0x06,为读一个字符光标加1
+  11          
+  12              write_com(0x80+0x10);//设置初始化数据指针，是在读指令的操作里进行的
+  13                  write_com(0x80+0x40+0x10);//换行操作,在屏幕的右方，显示后移到视野内
+  14          
+  15          2，左移和右移
+  16                   //#######字幕向左移出########
+  17                   for(num=0;num<16;num++) //屏幕正方向一共有16个字块，左移16次
+  18                     {
+  19                                  write_com(0x18);//写控制字，在英文文档里介绍。0x18为左移，0x1c为右移。
+  20                                  delay(100);     //控制移动的速率，即每移动一个字块延时多少秒
+  21                     }    
+  22               //#######字幕向右移出########
+  23                   for(num=0;num<24;num++) //屏幕正方向一共有16个字块，右移时注意移动不足的情况，视情况添加
+  24                     {
+  25                                  write_com(0x1c);//写控制字，在英文文档里介绍。0x18为左移，0x1c为右移。
+  26                                  delay(100);     //控制移动的速率，即每移动一个字块延时多少秒
+  27                     }
+  28          ####################################################
+  29          */
+  30                  //       write_com(uchar com)       写命令函数
+  31                  //       write_date(uchar date)         写数据函数
+  32                  //   init_lcd()                 初始化函数
+  33                  //   display()                                  显示函数
+  34                  //   move()                                             移动函数
+  35          //##################################################
+  36          #include<reg52.h>
+  37          #define uchar unsigned char 
+  38          #define uint unsigned int
+  39          
+  40          uchar i;
+  41          
+  42          sbit lcdrs=P1^0;
+  43          sbit lcdrw=P1^1;
+  44          sbit lcden=P1^2;
+  45          
+  46          uchar code t0[]=" douzi && douer ";
+  47          uchar code t1[]=" douzi -> douer ";
+  48          
+  49          void delay(uchar z)
+  50          {
+  51   1              uchar x,y;
+  52   1              for(x=1000;x>1;x--)
+  53   1                      for(y=z;y>1;y--);
+  54   1      }
+  55          
+C51 COMPILER V7.02a   LCD1                                                                 06/07/2005 15:21:16 PAGE 2   
+
+  56          void write_com(uchar com)
+  57          {
+  58   1              lcdrs=0;
+  59   1              P2=com; 
+  60   1              delay(5);
+  61   1              lcden=1;
+  62   1              delay(5);
+  63   1              lcden=0;
+  64   1      }
+  65          void write_date(uchar date)
+  66          {
+  67   1              lcdrs=1;
+  68   1              P2=date;
+  69   1              delay(5);
+  70   1              lcden=1;
+  71   1              delay(5);
+  72   1              lcden=0;
+  73   1      }
+  74          void init_lcd()
+  75          {
+  76   1              lcden=0;
+  77   1              lcdrw=0;
+  78   1              write_com(0x38);
+  79   1              write_com(0x01);
+  80   1              write_com(0x0c);
+  81   1              write_com(0x06);
+  82   1      }
+  83          void display()
+  84          {
+  85   1              //在屏幕右侧显示出数据
+  86   1              write_com(0x80+0x10);//设置初始化数据指针位置,设置在屏幕的未显示区，然后移动到屏幕的正方
+  87   1              for(i=0;i<16;i++)
+  88   1              {
+  89   2                      write_date(t0[i]);
+  90   2                      delay(5);
+  91   2              }
+  92   1              write_com(0x80+0x40+0x10); //设置初始化数据指针位置,设置在屏幕的未显示区，然后移动到屏幕的正方  
+  93   1              for(i=0;i<16;i++)
+  94   1              {
+  95   2                      write_date(t1[i]);
+  96   2                      delay(5);               
+  97   2              }
+  98   1      }
+  99          void move()     //进行移动
+ 100          {
+ 101   1                      for(i=0;i<16;i++)
+ 102   1                      {
+ 103   2                              write_com(0x18);
+ 104   2                              delay(100);
+ 105   2                      }
+ 106   1      }
+ 107          //#######################
+ 108          void main()
+ 109          {
+ 110   1              init_lcd();
+ 111   1              display();
+ 112   1              while(1)
+ 113   1              {
+ 114   2                      move();         
+ 115   2              }
+ 116   1      }
+
+C51 COMPILER V7.02a   LCD1                                                                 06/07/2005 15:21:16 PAGE 3   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    166    ----
+   CONSTANT SIZE    =     34    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
